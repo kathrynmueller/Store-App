@@ -1,0 +1,16 @@
+<h2>Thanks for shopping at SuperStore!</h2>
+<p>Here's what's on the way to you:</p>
+
+<ul>
+	<% @order.order_items.each do |product_id, quantity| %>
+
+    	<li><%= Product.find(product_id).name %>, Qty: <%= quantity %></li>
+  
+	<% end %>
+</ul>
+
+<div class="row">
+	<p>
+	  <strong>Order Total:</strong> <%= number_to_currency @order.grand_total %>
+	</p>
+</div>

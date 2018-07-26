@@ -6,12 +6,13 @@
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
   <body>
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <nav class="navbar navbar-expand-lg navbar-dark">
       <%= link_to "SuperStore", root_path, class: "navbar-brand" %>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -23,7 +24,14 @@
             <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">A Link</a>
+            <%= link_to view_order_path do %>
+            <span class="fas fa-shopping-cart nav-link"> Your Cart</span>
+            <% end %>
+          </li>
+          <li class="nav-item">
+            <% if user_signed_in? %>
+            <%= link_to "Add a Product", new_product_path, class: "nav-link" %>
+            <% end %>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -31,7 +39,18 @@
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
               <% @categories.each do |category| %>
-                <%= link_to category.name, root_path, class: "dropdown-item" %>
+                <%= link_to category.name, categorical_path(id: category.id), class: "dropdown-item" %>
+              <% end %>
+            </div>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Brands
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <% @brands.each do |brand| %>
+                <%= link_to brand, branding_path(brand: brand), class: "dropdown-item" %>
               <% end %>
             </div>
           </li>
@@ -44,6 +63,7 @@
       </div>
       <div class="navbar-nav float-right">
         <% if user_signed_in? %>
+          Signed in as <%= current_user.email %>
           <%= link_to "Sign Out", destroy_user_session_path, method: :delete, class: "btn btn-danger" %>
         <% else %>
           <%= link_to "Sign In", new_user_session_path, class: "btn btn-success"  %>

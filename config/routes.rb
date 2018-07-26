@@ -1,10 +1,18 @@
 Rails.application.routes.draw do
-  devise_for :users
   root 'storefront#all_items'
 
-  get 'by_category' => 'storefront#items_by_category'
-  get 'by_brand' => 'storefront#items_by_brand'
 
+  devise_for :users
   resources :products
+
+  post 'add_to_cart' => 'cart#add_to_cart'
+  get 'view_order' => 'cart#view_order'
+  get 'checkout' => 'cart#checkout'
+
+
+  get 'by_category' => 'storefront#items_by_category', as: 'categorical'
+  get 'by_brand' => 'storefront#items_by_brand', as: 'branding'
+
+
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

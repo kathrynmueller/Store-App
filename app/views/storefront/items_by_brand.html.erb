@@ -1,2 +1,10 @@
-<h1>Storefront#by_brand</h1>
-<p>Find me in app/views/storefront/by_brand.html.erb</p>
+<h1><%= @brand %> </h1>
+
+<div class="row">
+	<% @products.each do |product| %>
+		<%= render 'products/card_and_modal', product: product %>
+
+	<% end %>
+</div>
+
+<%= link_to 'Return to All Products', root_path, class: "btn btn-success" %>
